@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Check pods
+      - name: Check deployment
         run: |
           kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
