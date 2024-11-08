@@ -4,9 +4,7 @@ Main FastAPI application.
 This file contains the FastAPI app and the necessary CRUD routes to manage tasks.
 """
 
-from typing import List  # Standard library imports first
-
-from fastapi import FastAPI  # Third-party imports next
+from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI()
