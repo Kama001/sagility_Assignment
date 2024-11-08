@@ -1,78 +1,101 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import List, Optional
+"""
+Main FastAPI application.
 
-# Create FastAPI app
+This file contains the FastAPI app and the necessary CRUD routes to manage tasks.
+"""
+
+from typing import List  # Standard library imports first
+
+from fastapi import FastAPI  # Third-party imports next
+from pydantic import BaseModel
+
 app = FastAPI()
 
-# In-memory storage for tasks (acting as a temporary "database")
+# In-memory task list to simulate a database
 tasks = []
 
-# Pydantic models for validation and serialization
-class TaskBase(BaseModel):
+class Task(BaseModel):
+    """
+    Represents a task with a title, description, and completion status.
+    """
     title: str
-    description: Optional[str] = None
+    description: str = None
+    completed: bool = False
 
-class TaskCreate(TaskBase):
-    pass
+@app.post("/tasks/")
+def create_task(task: Task):
+    """
+    Create a new task.
 
-class TaskUpdate(TaskBase):
-    completed: Optional[bool] = None
+    Args:
+        task (Task): The task to be created.
 
-class Task(TaskBase):
-    id: int
-    completed: bool
+    Returns:
+        dict: The created task with an 'id' field.
+    """
+    task_id = max((task["id"] for task in tasks), default=0) + 1
+    task_data = task.dict()
+    task_data["id"] = task_id
+    tasks.append(task_data)
+    return task_data
 
-    class Config:
-        orm_mode = True
-
-# Utility to get the next task ID
-def get_next_task_id():
-    return max([task.id for task in tasks], default=0) + 1
-
-# Endpoint to create a task
-@app.post("/tasks/", response_model=Task)
-def create_task(task: TaskCreate):
-    task_id = get_next_task_id()
-    new_task = Task(id=task_id, title=task.title, description=task.description, completed=False)
-    tasks.append(new_task)
-    return new_task
-
-# Endpoint to get all tasks
-@app.get("/tasks/", response_model=List[Task])
+@app.get("/tasks/")
 def get_tasks():
+    """
+    Get all tasks.
+
+    Returns:
+        List[dict]: A list of all tasks.
+    """
     return tasks
 
-# Endpoint to get a single task by ID
-@app.get("/tasks/{task_id}", response_model=Task)
+@app.get("/tasks/{task_id}")
 def get_task(task_id: int):
-    task = next((task for task in tasks if task.id == task_id), None)
+    """
+    Get a specific task by its ID.
+
+    Args:
+        task_id (int): The ID of the task to retrieve.
+
+    Returns:
+        dict: The task data.
+    """
+    task = next((task for task in tasks if task["id"] == task_id), None)
     if task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
+        return {"error": "Task not found"}, 404
     return task
 
-# Endpoint to update a task
-@app.put("/tasks/{task_id}", response_model=Task)
-def update_task(task_id: int, task_update: TaskUpdate):
-    task = next((task for task in tasks if task.id == task_id), None)
-    if task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
-    
-    if task_update.title:
-        task.title = task_update.title
-    if task_update.description:
-        task.description = task_update.description
-    if task_update.completed is not None:
-        task.completed = task_update.completed
+@app.put("/tasks/{task_id}")
+def update_task(task_id: int, task: Task):
+    """
+    Update a specific task by its ID.
 
-    return task
+    Args:
+        task_id (int): The ID of the task to update.
+        task (Task): The updated task data.
 
-# Endpoint to delete a task
-@app.delete("/tasks/{task_id}", response_model=Task)
+    Returns:
+        dict: The updated task data.
+    """
+    existing_task = next((task for task in tasks if task["id"] == task_id), None)
+    if existing_task is None:
+        return {"error": "Task not found"}, 404
+    existing_task.update(task.dict())
+    return existing_task
+
+@app.delete("/tasks/{task_id}")
 def delete_task(task_id: int):
-    task = next((task for task in tasks if task.id == task_id), None)
+    """
+    Delete a specific task by its ID.
+
+    Args:
+        task_id (int): The ID of the task to delete.
+
+    Returns:
+        dict: The deleted task data.
+    """
+    task = next((task for task in tasks if task["id"] == task_id), None)
     if task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
-    
+        return {"error": "Task not found"}, 404
     tasks.remove(task)
     return task
