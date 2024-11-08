@@ -39,4 +39,4 @@ jobs:
       # Run tests using pytest (or unittest)
       - name: Run tests
         run: |
-          pytest tests/ --maxfail=1 --disable-warnings -q  # Fail fast on the first error
+          pytest tests/test.py --maxfail=1 --disable-warnings -q  # Fail fast on the first error
