@@ -1,3 +1,9 @@
+import sys
+import os
+from pathlib import Path
+
+# Add the root directory to the Python path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 import pytest
 from fastapi.testclient import TestClient
 from main import app  # Import your FastAPI app
