@@ -13,4 +13,4 @@ jobs:
       # Step 1: Checkout the repository
       - name: Check pods
         run: |
-          kubectl get pods
+          kubectl apply -f deployment.yaml
