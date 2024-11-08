@@ -1,3 +1,14 @@
+"""
+Main FastAPI application.
+
+This file contains the FastAPI app and the necessary CRUD routes to manage tasks.
+The app provides endpoints to:
+- Create a task
+- Retrieve all tasks or a specific task by ID
+- Update an existing task
+- Delete a task
+"""
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
