@@ -83,4 +83,6 @@ def test_get_task_not_found():
     """Test getting a non-existent task."""
     response = client.get("/tasks/999")  # Task ID 999 doesn't exist
     assert response.status_code == 404  # Should return a 404 error
-    assert "error" in response.json()  # Should return an error message
+    assert "detail" in response.json()  # Should return a "detail" key with the error message
+    assert response.json()["detail"] == "Task not found"  # Check the error message
+

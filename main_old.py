@@ -1,4 +1,10 @@
-from fastapi import FastAPI, HTTPException
+"""
+Main FastAPI application.
+
+This file contains the FastAPI app and the necessary CRUD routes to manage tasks.
+"""
+
+from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -54,7 +60,7 @@ def get_task(task_id: int):
     """
     task = next((task for task in tasks if task["id"] == task_id), None)
     if task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
+        return {"error": "Task not found"}, 404
     return task
 
 @app.put("/tasks/{task_id}")
@@ -71,7 +77,7 @@ def update_task(task_id: int, task: Task):
     """
     existing_task = next((task for task in tasks if task["id"] == task_id), None)
     if existing_task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
+        return {"error": "Task not found"}, 404
     existing_task.update(task.dict())
     return existing_task
 
@@ -88,6 +94,6 @@ def delete_task(task_id: int):
     """
     task = next((task for task in tasks if task["id"] == task_id), None)
     if task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
+        return {"error": "Task not found"}, 404
     tasks.remove(task)
     return task
