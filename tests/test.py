@@ -1,9 +1,9 @@
 import sys
-import os
 from pathlib import Path
 
-# Add the root directory to the Python path
+# Add the parent directory to the Python path to ensure 'main' can be imported
 sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 import pytest
 from fastapi.testclient import TestClient
 from main import app  # Import your FastAPI app
@@ -33,7 +33,7 @@ def test_get_task_by_id():
         "/tasks/", json={"title": "Buy groceries", "description": "Milk, eggs, bread"}
     )
     task_id = create_response.json()["id"]
-    
+
     # Now, retrieve the task by ID
     response = client.get(f"/tasks/{task_id}")
     assert response.status_code == 200
@@ -47,7 +47,7 @@ def test_update_task():
         "/tasks/", json={"title": "Buy groceries", "description": "Milk, eggs, bread"}
     )
     task_id = create_response.json()["id"]
-    
+
     # Update the task
     updated_data = {"title": "Buy groceries and more", "completed": True}
     update_response = client.put(f"/tasks/{task_id}", json=updated_data)
@@ -62,7 +62,7 @@ def test_delete_task():
         "/tasks/", json={"title": "Buy groceries", "description": "Milk, eggs, bread"}
     )
     task_id = create_response.json()["id"]
-    
+
     # Now, delete the task
     delete_response = client.delete(f"/tasks/{task_id}")
     assert delete_response.status_code == 200
