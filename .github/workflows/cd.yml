@@ -1,0 +1,16 @@
+name: Deploy to Minikube
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment on push to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Check pods
+        run: |
+          kubectl get pods
