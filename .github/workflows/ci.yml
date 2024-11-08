@@ -25,11 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pylint
-          pip install fastapi
-          pip install pydantic
-          pip install pytest
-          pip install uvicorn
+          pip install -r requirements-test.txt
 
       # Lint the code (using pylint for Python)
       - name: Lint with Pylint

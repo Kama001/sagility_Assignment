@@ -1,0 +1,6 @@
+pylint
+fastapi
+pydantic
+pytest
+uvicorn
+httpx
