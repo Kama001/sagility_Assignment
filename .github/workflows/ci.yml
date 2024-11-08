@@ -59,9 +59,9 @@ jobs:
       # Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t saic3076@gmail.com/yourimage:latest .
+          docker build -t stark985/todoapp:latest .
 
       # Push the Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
-          docker push saic3076@gmail.com/yourimage:latest
+          docker push stark985/todoapp:latest
