@@ -39,7 +39,7 @@ Get minikube IP and use port defined in values.yaml of Helm
 
 ### Create a Task (POST /tasks/):
 curl -X 'POST' \
-http://<minikube>:<port>/tasks/ \
+http://minikube:port/tasks/ \
 -H 'Content-Type: application/json' \
 -d '{"title": "Buy groceries", "description": "Milk, eggs, bread"}'
 ### Expected Response (example):
@@ -51,7 +51,7 @@ http://<minikube>:<port>/tasks/ \
 }
 
 ### Get All Tasks (GET /tasks/):
-curl -X 'GET' 'http://<minikube>:<port>/tasks/'
+curl -X 'GET' 'http://minikube:port/tasks/'
 
 ### Expected Response (example):
 [
@@ -64,7 +64,7 @@ curl -X 'GET' 'http://<minikube>:<port>/tasks/'
 }
 
 ### Get a Specific Task (GET /tasks/{task_id}):
-curl -X 'GET' 'http://<minikube>:<port>/tasks/1'
+curl -X 'GET' 'http://minikube:port/tasks/1'
 
 ### Expected Response (example):
 {
@@ -76,7 +76,7 @@ curl -X 'GET' 'http://<minikube>:<port>/tasks/1'
 
 ### Update a Task (PUT /tasks/{task_id}):
 curl -X 'PUT' \
-  'http://<minikube>:<port>/tasks/1' \
+  'http://minikube:port/tasks/1' \
   -H 'Content-Type: application/json' \
   -d '{
     "title": "Buy groceries and more",
@@ -91,7 +91,7 @@ curl -X 'PUT' \
 }
 
 ### Delete a Task (DELETE /tasks/{task_id}):
-curl -X 'DELETE' 'http://<minikube>:<port>/tasks/1'
+curl -X 'DELETE' 'http://minikube:port/tasks/1'
 ### Expected Response (example):
 {
   "id": 1,
