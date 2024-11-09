@@ -1,0 +1,21 @@
+# todo-app-helm-chart/values.yaml
+replicaCount: 1
+
+image:
+  repository: stark985/todoapp
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8085
+  nodePort: 30007
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

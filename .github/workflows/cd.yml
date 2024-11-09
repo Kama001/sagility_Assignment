@@ -16,7 +16,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Check deployment
+      - name: App deployment
         run: |
-          kubectl apply -f k8s/deployment.yaml
-          kubectl apply -f k8s/service.yaml
+          helm install v1 k8s/todoapp --values k8s/todoapp/values.yaml

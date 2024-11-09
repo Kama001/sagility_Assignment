@@ -1,0 +1,6 @@
+# todo-app-helm-chart/Chart.yaml
+apiVersion: v2
+name: todo-app
+description: A Helm chart for deploying a Todo App
+version: 0.1.0
+appVersion: "1.0"

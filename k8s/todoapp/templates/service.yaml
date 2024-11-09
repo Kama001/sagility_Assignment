@@ -1,0 +1,13 @@
+# todo-app-helm-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-todo-app-service
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: {{ .Release.Name }}-todo
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      nodePort: {{ .Values.service.nodePort }}
