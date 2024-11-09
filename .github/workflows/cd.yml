@@ -1,9 +1,13 @@
 name: Deploy to Minikube
 
 on:
-  push:
-    branches:
-      - main  # Trigger deployment on push to the 'main' branch
+  #push:
+  #  branches:
+  #    - main  # Trigger deployment on push to the 'main' branch
+  workflow_run:
+    workflows: ["CI Pipeline"]  # Name of the CI workflow
+    types:
+      - completed
 
 jobs:
   deploy:
